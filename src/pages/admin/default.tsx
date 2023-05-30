@@ -1,15 +1,15 @@
 import { Box, Flex, FormLabel, Icon, Select, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
-import MiniStatistics from "components/card/MiniStatistics";
-import IconBox from "components/icons/IconBox";
+import MiniStatistics from "@/components/card/MiniStatistics";
+import IconBox from "@/components/icons/IconBox";
 import {
   MdAddTask,
   MdAttachMoney,
   MdBarChart,
   MdFileCopy,
 } from "react-icons/md";
-import AdminLayout from "layouts/admin";
-import { Image } from "components/image/Image";
-import Usa from "img/dashboards/usa.png";
+import AdminLayout from "@/layouts/admin";
+import { Image } from "@/components/image/Image";
+import Usa from "@/img/dashboards/usa.png";
 
 export default function UserReports() {
   // Chakra Color Mode

@@ -2,8 +2,8 @@ import { Icon } from "@chakra-ui/react";
 import { MdHome } from "react-icons/md";
 
 // Admin Imports
-import MainDashboard from "pages/admin/default";
-import { IRoute } from "types/navigation";
+import MainDashboard from "@/pages/admin/default";
+import { IRoute } from "@/types/navigation";
 
 const routes: IRoute[] = [
   {

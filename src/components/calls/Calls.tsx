@@ -5,21 +5,29 @@ import CallCard from "./components/CallCard";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import CallModal from "./components/CallModal";
-import { useDisclosure } from "@chakra-ui/react";
+import { Heading, useDisclosure } from "@chakra-ui/react";
 
 const Calls: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <CallModal isOpen={isOpen} onClose={onClose} />
-      <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]}>
-        <SwiperSlide style={{ boxShadow: "none" }}>
+      <Heading size={"sm"} m={3}>
+        Incoming Calls
+      </Heading>
+      <Swiper
+        effect={"cards"}
+        grabCursor={true}
+        modules={[EffectCards]}
+        style={{ padding: "0 15px", backgroundColor: "transparent" }}
+      >
+        <SwiperSlide style={{ boxShadow: "none", borderRadius: "30px" }}>
           <CallCard onOpen={onOpen} />
         </SwiperSlide>
-        <SwiperSlide style={{ boxShadow: "none" }}>
+        <SwiperSlide style={{ boxShadow: "none", borderRadius: "30px" }}>
           <CallCard onOpen={onOpen} />
         </SwiperSlide>
-        <SwiperSlide style={{ boxShadow: "none" }}>
+        <SwiperSlide style={{ boxShadow: "none", borderRadius: "30px" }}>
           <CallCard onOpen={onOpen} />
         </SwiperSlide>
       </Swiper>

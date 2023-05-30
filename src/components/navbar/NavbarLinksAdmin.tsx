@@ -12,11 +12,11 @@ import {
   useColorModeValue,
   useColorMode,
 } from "@chakra-ui/react";
-import { SidebarResponsive } from "components/sidebar/Sidebar";
+import { SidebarResponsive } from "@/components/sidebar/Sidebar";
 import PropTypes from "prop-types";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
-import routes from "routes";
+import routes from "@/routes";
 export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();

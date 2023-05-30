@@ -13,18 +13,18 @@ import {
   DrawerContent,
   DrawerCloseButton
 } from '@chakra-ui/react'
-import Content from 'components/sidebar/components/Content'
+import Content from '@/components/sidebar/components/Content'
 import {
   renderThumb,
   renderTrack,
   renderView
-} from 'components/scrollbar/Scrollbar'
+} from '@/components/scrollbar/Scrollbar'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 
 // Assets
 import { IoMenuOutline } from 'react-icons/io5'
-import { IRoute } from 'types/navigation'
-import { isWindowAvailable } from 'utils/navigation'
+import { IRoute } from '@/types/navigation'
+import { isWindowAvailable } from '@/utils/navigation'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]

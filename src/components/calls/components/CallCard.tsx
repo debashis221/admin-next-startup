@@ -11,7 +11,6 @@ const CallCard: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
       align="center"
       bg={bgColor}
       borderRadius="30px"
-      me="20px"
       position="relative"
     >
       <HStack align="center" justify={"space-between"} py={7}>
