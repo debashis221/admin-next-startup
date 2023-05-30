@@ -1,29 +1,37 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { AppProps } from 'next/app'
-import React from 'react'
-import theme from '@/theme/theme'
+import { ChakraProvider } from "@chakra-ui/react";
+import { type Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+import { type AppType } from "next/app";
+import React from "react";
+import theme from "@/theme/theme";
+import { api } from "@/utils/api";
 
-import '@/styles/Fonts.css'
-import '@/styles/App.css'
-import '@/styles/Contact.css'
+import "@/styles/Fonts.css";
+import "@/styles/App.css";
+import "@/styles/Contact.css";
 
-import 'react-calendar/dist/Calendar.css'
-import '@/styles/MiniCalendar.css'
-import Head from 'next/head'
+import "react-calendar/dist/Calendar.css";
+import "@/styles/MiniCalendar.css";
+import Head from "next/head";
 
-function MyApp ({ Component, pageProps }: AppProps) {
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
     <ChakraProvider theme={theme}>
       <Head>
         <title>Admin Dashboard</title>
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <meta name='theme-color' content='#000000' />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
       </Head>
       <React.StrictMode>
-        <Component {...pageProps} />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
       </React.StrictMode>
     </ChakraProvider>
-  )
-}
+  );
+};
 
-export default MyApp
+export default api.withTRPC(MyApp);

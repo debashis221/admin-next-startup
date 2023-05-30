@@ -1,4 +1,13 @@
-import { Box, Flex, FormLabel, Icon, Select, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  FormLabel,
+  Icon,
+  Select,
+  SimpleGrid,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import MiniStatistics from "@/components/card/MiniStatistics";
 import IconBox from "@/components/icons/IconBox";
 import {
@@ -8,19 +17,23 @@ import {
   MdFileCopy,
 } from "react-icons/md";
 import AdminLayout from "@/layouts/admin";
-import { Image } from "@/components/image/Image";
 import Usa from "@/img/dashboards/usa.png";
+import Image from "next/image";
+import { api } from "@/utils/api";
 
 export default function UserReports() {
   // Chakra Color Mode
-
+  const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
-
   return (
     <AdminLayout>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
         <>
+          <Text>
+            {" "}
+            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+          </Text>
           <SimpleGrid
             columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
             gap="20px"
@@ -70,7 +83,7 @@ export default function UserReports() {
                 <Flex me="-16px" mt="10px">
                   <FormLabel htmlFor="balance">
                     <Box boxSize={"12"}>
-                      <Image src={Usa} alt="" w={"100%"} h={"100%"} />
+                      <Image src={Usa} alt="" width={100} height={100} />
                     </Box>
                   </FormLabel>
                   <Select
