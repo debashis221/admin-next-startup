@@ -1,9 +1,4 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Box,
   Button,
   Collapse,
   HStack,
@@ -11,7 +6,6 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
-  InputRightElement,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -45,7 +39,7 @@ const ActiveAgents: React.FC = () => {
       <Stack
         gap={2}
         overflowY={"scroll"}
-        maxH={"15rem"}
+        maxH={"xs"}
         position={"relative"}
         __css={{
           "&::-webkit-scrollbar": {

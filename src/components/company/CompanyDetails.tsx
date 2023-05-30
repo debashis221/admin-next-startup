@@ -1,5 +1,3 @@
-import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
 import {
   Button,
   Flex,
@@ -15,10 +13,12 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, FormikProps } from "formik";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 const CompanyDetails: React.FC = () => {
-  const bg = useColorModeValue("gray", "#0b1437");
+  const bg = useColorModeValue("#E9EDF7", "#0b1437");
+
   return (
     <Stack>
       <HStack align={"flex-start"} justify={"space-between"}>
@@ -76,21 +76,7 @@ const CompanyDetails: React.FC = () => {
         </List>
         <Stack w={"full"}>
           <Heading size={"sm"}>Recordings: </Heading>
-          <AudioPlayer
-            src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-            layout="horizontal-reverse"
-            customControlsSection={[
-              RHAP_UI.MAIN_CONTROLS,
-              RHAP_UI.VOLUME_CONTROLS,
-            ]}
-            // customProgressBarSection={[]}
-            style={{
-              background: bg,
-              boxShadow: "none",
-              borderRadius: "1rem",
-            }}
-            customVolumeControls={[]}
-          />
+          <AudioPlayer src="https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3" />
         </Stack>
       </HStack>
       <Formik
@@ -99,7 +85,7 @@ const CompanyDetails: React.FC = () => {
           console.log(values);
         }}
       >
-        {(props) => (
+        {(props: FormikProps<any>) => (
           <Form>
             <Flex gap={4}>
               <Field name="notes">
@@ -113,7 +99,12 @@ const CompanyDetails: React.FC = () => {
               </Field>
             </Flex>
             <Stack justify={"flex-end"} align={"flex-end"} p={3}>
-              <Button type="submit" w={"36"} colorScheme="blue">
+              <Button
+                type="submit"
+                w={"36"}
+                colorScheme="blue"
+                isLoading={props.isSubmitting}
+              >
                 Update Note
               </Button>
             </Stack>
