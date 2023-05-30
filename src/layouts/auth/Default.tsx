@@ -1,7 +1,7 @@
 // Chakra imports
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
-import Footer from "components/footer/FooterAuth";
-import FixedPlugin from "components/fixedPlugin/FixedPlugin";
+import Footer from "@/components/footer/FooterAuth";
+import FixedPlugin from "@/components/fixedPlugin/FixedPlugin";
 import { ReactNode } from "react";
 
 function AuthIllustration(props: {

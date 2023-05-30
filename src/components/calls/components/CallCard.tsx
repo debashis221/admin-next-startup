@@ -3,7 +3,7 @@ import { ImPhoneHangUp } from "react-icons/im";
 import { FaPhone } from "react-icons/fa";
 import React from "react";
 
-const CallCard: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
+const CallCard: React.FC<{ }> = () => {
   const bgColor = "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)";
   return (
     <Stack
@@ -12,22 +12,22 @@ const CallCard: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
       bg={bgColor}
       borderRadius="30px"
       position="relative"
+      p={4}
     >
-      <HStack align="center" justify={"space-between"} py={7}>
-        <Stack spacing={0} align={"center"} justify={"center"}>
-          <Heading
-            color="white"
-            fontWeight="bold"
-            textAlign="center"
-            size={"md"}
-          >
-            John Wick
-          </Heading>
-          <Heading fontSize={"xs"} color={"white"}>
-            +1 202-555-0176
-          </Heading>
-        </Stack>
-
+      <Stack spacing={0} align={"center"} justify={"center"}>
+        <Heading
+          color="white"
+          fontWeight="black"
+          textAlign="center"
+          fontSize={"1.4rem"}
+        >
+          Company Name
+        </Heading>
+        <Heading fontSize={"xs"} color={"white"}>
+          +1 202-555-0176
+        </Heading>
+      </Stack>
+      <HStack>
         <Button
           bg="green.300"
           _hover={{ bg: "whiteAlpha.400" }}
@@ -36,7 +36,7 @@ const CallCard: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
           borderRadius={"full"}
           size={"md"}
           minH={"50px"}
-          onClick={onOpen}
+          // onClick={onOpen}
         >
           <FaPhone size={20} color="white" />
         </Button>
