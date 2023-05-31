@@ -10,8 +10,6 @@ import "@/styles/Fonts.css";
 import "@/styles/App.css";
 import "@/styles/Contact.css";
 
-import "react-calendar/dist/Calendar.css";
-import "@/styles/MiniCalendar.css";
 import Head from "next/head";
 
 const MyApp: AppType<{ session: Session | null }> = ({

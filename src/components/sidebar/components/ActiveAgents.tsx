@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Collapse,
   HStack,
   Heading,
@@ -12,9 +13,11 @@ import {
 import React from "react";
 import AgentCard from "./AgentCard";
 import { CloseIcon, Search2Icon } from "@chakra-ui/icons";
+import { api } from "@/utils/api";
 
 const ActiveAgents: React.FC = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const { data, isLoading } = api.users.getAllUsers.useQuery();
 
   return (
     <Stack>
@@ -52,14 +55,19 @@ const ActiveAgents: React.FC = () => {
           },
         }}
       >
-        <AgentCard isActive={true} />
-        <AgentCard isActive={true} />
-        <AgentCard isActive={false} />
-        <AgentCard isActive={true} />
-        <AgentCard isActive={false} />
-        <AgentCard isActive={false} />
-        <AgentCard isActive={true} />
-        <AgentCard isActive={false} />
+        {isLoading ? (
+          <Stack align={"center"} justify={"center"} p={4}>
+            <CircularProgress isIndeterminate color="blue.300" />
+          </Stack>
+        ) : (
+          data?.map((user) => (
+            <AgentCard
+              isActive={user.isLoggedIn}
+              key={user.id}
+              name={user.name!}
+            />
+          ))
+        )}
       </Stack>
     </Stack>
   );

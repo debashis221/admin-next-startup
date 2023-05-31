@@ -73,6 +73,16 @@ export const authOptions: NextAuthOptions = {
         },
       });
     },
+    async signOut({ session, token }) {
+      await prisma.user.update({
+        where: {
+          email: token?.email!,
+        },
+        data: {
+          isLoggedIn: false,
+        },
+      });
+    },
   },
   pages: {
     signIn: "/auth/sign-in",

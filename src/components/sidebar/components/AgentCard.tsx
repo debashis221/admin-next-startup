@@ -9,7 +9,10 @@ import {
 import React from "react";
 import Card from "@/components/card/Card";
 
-const AgentCard: React.FC<{ isActive: boolean }> = ({ isActive }) => {
+const AgentCard: React.FC<{ isActive: boolean; name: string }> = ({
+  isActive,
+  name,
+}) => {
   const backgroundColor = useColorModeValue("secondaryGray.400", "navy.900");
   return (
     <Card p={2} backgroundColor={backgroundColor}>
@@ -21,7 +24,7 @@ const AgentCard: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           />
         </Avatar>
         <Stack>
-          <Heading size={"sm"}>Company Name</Heading>
+          <Heading size={"sm"}>{name}</Heading>
         </Stack>
       </HStack>
     </Card>
