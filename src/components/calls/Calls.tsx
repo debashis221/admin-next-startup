@@ -5,8 +5,11 @@ import CallCard from "./components/CallCard";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { Heading, Stack } from "@chakra-ui/react";
+import { api } from "@/utils/api";
 
 const Calls: React.FC = () => {
+  const { data } = api.twilio.getQueuedCalls.useQuery();
+  console.log(data);
   return (
     <Stack>
       <Heading size={"sm"} m={3}>

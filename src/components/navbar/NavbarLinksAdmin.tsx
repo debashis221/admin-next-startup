@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
 import routes from "@/routes";
+import { signOut, useSession } from "next-auth/react";
 export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
@@ -24,16 +25,13 @@ export default function HeaderLinks(props: { secondary: boolean }) {
   const navbarIcon = useColorModeValue("gray.400", "white");
   let menuBg = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("secondaryGray.900", "white");
-  const textColorBrand = useColorModeValue("brand.700", "brand.400");
-  const ethColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("#E6ECFA", "rgba(135, 140, 189, 0.3)");
-  const ethBg = useColorModeValue("secondaryGray.300", "navy.900");
-  const ethBox = useColorModeValue("white", "navy.800");
   const shadow = useColorModeValue(
     "14px 17px 40px 4px rgba(112, 144, 176, 0.18)",
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
-  const borderButton = useColorModeValue("secondaryGray.500", "whiteAlpha.200");
+  const { data } = useSession();
+  console.log(data)
   return (
     <Flex
       w={{ sm: "100%", md: "auto" }}
@@ -45,40 +43,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
       borderRadius="30px"
       boxShadow={shadow}
     >
-      <Flex
-        bg={ethBg}
-        display={secondary ? "flex" : "none"}
-        borderRadius="30px"
-        ms="auto"
-        p="6px"
-        align="center"
-        me="6px"
-      >
-        <Flex
-          align="center"
-          justify="center"
-          bg={ethBox}
-          h="29px"
-          w="29px"
-          borderRadius="30px"
-          me="7px"
-        >
-          <Icon color={ethColor} w="9px" h="14px" as={FaEthereum} />
-        </Flex>
-        <Text
-          w="max-content"
-          color={ethColor}
-          fontSize="sm"
-          fontWeight="700"
-          me="6px"
-        >
-          1,924
-          <Text as="span" display={{ base: "none", md: "unset" }}>
-            {" "}
-            ETH
-          </Text>
-        </Text>
-      </Flex>
       <SidebarResponsive routes={routes} />
 
       <Button
@@ -104,7 +68,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           <Avatar
             _hover={{ cursor: "pointer" }}
             color="white"
-            name="Adela Parkson"
+            name={data?.user.name}
             bg="#11047A"
             size="sm"
             w="40px"
@@ -131,7 +95,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, Adela
+              👋&nbsp; Hey, {data?.user.name}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
@@ -149,6 +113,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               color="red.400"
               borderRadius="8px"
               px="14px"
+              onClick={() => signOut()}
             >
               <Text fontSize="sm">Log out</Text>
             </MenuItem>

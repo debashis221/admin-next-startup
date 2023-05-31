@@ -1,14 +1,36 @@
-import { Heading, Stack, useColorModeValue } from "@chakra-ui/react";
+import {
+  Checkbox,
+  HStack,
+  Heading,
+  Stack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import HistoryCard from "./components/HistoryCard";
 import { Select } from "chakra-react-select";
 
 const History = () => {
   const color = useColorModeValue("gray.700", "white");
   return (
-    <Stack>
-      <Heading size={"sm"} textAlign="left" flex={1}>
-        History
-      </Heading>
+    <Stack
+      minH={"lg"}
+      maxH={"lg"}
+      overflowY={"scroll"}
+      __css={{
+        "&::-webkit-scrollbar": {
+          width: "0",
+        },
+        "&::-webkit-scrollbar-track": {
+          width: "0",
+        },
+      }}
+      gap={3}
+    >
+      <HStack justify={"space-between"}>
+        <Heading size={"sm"} textAlign="left" flex={1}>
+          All History
+        </Heading>
+        <Checkbox defaultChecked>Death Call</Checkbox>
+      </HStack>
 
       <Select
         options={[
@@ -19,7 +41,7 @@ const History = () => {
         isClearable
         placeholder="Select Days"
         chakraStyles={{
-          input: (provided, state) => {
+          input: (provided) => {
             return {
               ...provided,
               color: color,
@@ -28,10 +50,10 @@ const History = () => {
         }}
       />
 
-      <HistoryCard />
-      <HistoryCard />
-      <HistoryCard />
-      <HistoryCard />
+      <HistoryCard isDeathCall />
+      <HistoryCard isDeathCall isActive/>
+      <HistoryCard isDeathCall />
+      <HistoryCard isDeathCall />
     </Stack>
   );
 };

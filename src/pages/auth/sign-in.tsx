@@ -5,7 +5,9 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
+  HStack,
   Heading,
   Icon,
   Input,
@@ -13,20 +15,24 @@ import {
   InputRightElement,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import DefaultAuthLayout from "@/layouts/auth/Default";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { signIn } from "next-auth/react";
+import { Field, Form, Formik, FormikProps } from "formik";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
-
-  const brandStars = useColorModeValue("brand.500", "brand.400");
-
+  const router = useRouter();
+  const toast = useToast();
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+
   return (
     <DefaultAuthLayout illustrationBackground={"/img/auth/auth.png"}>
       <Flex
@@ -67,68 +73,122 @@ export default function SignIn() {
           me="auto"
           mb={{ base: "20px", md: "auto" }}
         >
-          <FormControl>
-            <FormLabel
-              display="flex"
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-              mb="8px"
-            >
-              Email<Text color={brandStars}>*</Text>
-            </FormLabel>
-            <Input
-              isRequired={true}
-              variant="auth"
-              fontSize="sm"
-              ms={{ base: "0px", md: "0px" }}
-              type="email"
-              placeholder="mail@simmmple.com"
-              mb="24px"
-              fontWeight="500"
-              size="lg"
-            />
-            <FormLabel
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-              display="flex"
-            >
-              Password<Text color={brandStars}>*</Text>
-            </FormLabel>
-            <InputGroup size="md">
-              <Input
-                isRequired={true}
-                fontSize="sm"
-                placeholder="Min. 8 characters"
-                mb="24px"
-                size="lg"
-                type={show ? "text" : "password"}
-                variant="auth"
-              />
-              <InputRightElement display="flex" alignItems="center" mt="4px">
-                <Icon
-                  color={textColorSecondary}
-                  _hover={{ cursor: "pointer" }}
-                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
-                />
-              </InputRightElement>
-            </InputGroup>
-
-            <Button
-              fontSize="sm"
-              variant="brand"
-              fontWeight="500"
-              w="100%"
-              h="50"
-              mb="24px"
-            >
-              Sign In
-            </Button>
-          </FormControl>
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={(values, actions) => {
+              actions.setSubmitting(true);
+              signIn("credentials", {
+                redirect: false,
+                email: values.email,
+                password: values.password,
+              }).then((res) => {
+                if (res?.ok) {
+                  router.replace("/");
+                  actions.setSubmitting(false);
+                  toast({
+                    title: "Signed in successfully!",
+                    description:
+                      "You've successfully signed in to your account.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                } else {
+                  actions.setSubmitting(false);
+                  toast({
+                    title: "Something went wrong!",
+                    description: `${res?.error}`,
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                }
+              });
+            }}
+          >
+            {(props: FormikProps<any>) => (
+              <Form>
+                <Field name="email">
+                  {({ field }: { field: any }) => (
+                    <FormControl isRequired>
+                      <FormLabel
+                        display="flex"
+                        ms="4px"
+                        fontSize="sm"
+                        fontWeight="500"
+                        color={textColor}
+                        mb="8px"
+                      >
+                        Email
+                      </FormLabel>
+                      <Input
+                        isRequired={true}
+                        variant="auth"
+                        fontSize="sm"
+                        ms={{ base: "0px", md: "0px" }}
+                        type="email"
+                        placeholder="mail@simmmple.com"
+                        fontWeight="500"
+                        size="lg"
+                        {...field}
+                      />
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="password">
+                  {({ field }: { field: any }) => (
+                    <FormControl isRequired>
+                      <FormLabel
+                        ms="4px"
+                        fontSize="sm"
+                        fontWeight="500"
+                        color={textColor}
+                        display="flex"
+                      >
+                        Password
+                      </FormLabel>
+                      <InputGroup size="md">
+                        <Input
+                          isRequired={true}
+                          fontSize="sm"
+                          placeholder="Min. 8 characters"
+                          mb="24px"
+                          size="lg"
+                          type={show ? "text" : "password"}
+                          variant="auth"
+                          {...field}
+                        />
+                        <InputRightElement
+                          display="flex"
+                          alignItems="center"
+                          mt="4px"
+                        >
+                          <Icon
+                            color={textColorSecondary}
+                            _hover={{ cursor: "pointer" }}
+                            as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                            onClick={handleClick}
+                          />
+                        </InputRightElement>
+                      </InputGroup>
+                    </FormControl>
+                  )}
+                </Field>
+                <Button
+                  fontSize="sm"
+                  variant="brand"
+                  fontWeight="500"
+                  w="100%"
+                  h="50"
+                  mb="24px"
+                  type="submit"
+                  isLoading={props.isSubmitting}
+                >
+                  Sign In
+                </Button>
+              </Form>
+            )}
+          </Formik>
         </Flex>
       </Flex>
     </DefaultAuthLayout>

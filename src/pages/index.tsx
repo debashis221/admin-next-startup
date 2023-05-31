@@ -1,13 +1,21 @@
-import { Box, Card, CardBody, HStack, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Card,
+  CardBody,
+  HStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import AdminLayout from "@/layouts/admin";
-import { api } from "@/utils/api";
 import History from "@/components/history/History";
 import CompanyDetails from "@/components/company/CompanyDetails";
+import { useSession } from "next-auth/react";
+import { api } from "@/utils/api";
 
 export default function UserReports() {
+  const session = useSession();
   // Chakra Color Mode
-  const { data, isLoading } = api.example.hello.useQuery({ text: "from tRPC" });
   const navbarBg = useColorModeValue("rgba(244, 247, 254, 0.2)", "navy.700");
+
   return (
     <AdminLayout>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>

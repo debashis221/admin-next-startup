@@ -17,26 +17,10 @@ const AudioPlayer: FC<{ src: string }> = ({ src }) => {
   const [totalTime, setTotalTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.addEventListener("timeupdate", handleTimeUpdate);
-      audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
-      audioElement.addEventListener("ended", handlePlaybackEnded);
-
-      return () => {
-        audioElement.removeEventListener("timeupdate", handleTimeUpdate);
-        audioElement.removeEventListener(
-          "loadedmetadata",
-          handleLoadedMetadata
-        );
-        audioElement.removeEventListener("ended", handlePlaybackEnded);
-      };
-    }
-  }, []);
 
   const handleLoadedMetadata = (): void => {
     const audioElement = audioRef.current;
+    console.log("Duration" + audioElement);
     if (audioElement) {
       setTotalTime(audioElement.duration);
     }
@@ -97,7 +81,8 @@ const AudioPlayer: FC<{ src: string }> = ({ src }) => {
           src={src}
           controls
           onTimeUpdate={handleTimeUpdate}
-          onEnded={() => setIsPlaying(false)}
+          onLoadedMetadata={handleLoadedMetadata}
+          onEnded={handlePlaybackEnded}
           ref={audioRef}
         />
       </Box>

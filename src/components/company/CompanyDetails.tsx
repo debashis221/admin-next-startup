@@ -14,13 +14,17 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Formik, Field, Form, FormikProps } from "formik";
-import AudioPlayer from "../AudioPlayer/AudioPlayer";
+import dynamic from "next/dynamic";
+
+const AudioPlayer = dynamic(() => import("../AudioPlayer/AudioPlayer"), {
+  ssr: false,
+});
 
 const CompanyDetails: React.FC = () => {
   const bg = useColorModeValue("#E9EDF7", "#0b1437");
 
   return (
-    <Stack>
+    <Stack minH={"lg"} maxH={"lg"}>
       <HStack align={"flex-start"} justify={"space-between"}>
         <List spacing={3} w={"full"}>
           <ListItem>
