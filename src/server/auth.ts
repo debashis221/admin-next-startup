@@ -1,13 +1,13 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import { prisma } from "@/server/db";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { loginSchema } from "@/validation/auth";
+import { baseURL, client } from "api/axios";
+import axios from "axios";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -22,18 +22,14 @@ declare module "next-auth" {
 }
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt: async ({ token, user }) => {
-      return {
-        ...token,
-        ...user,
-      };
+    async jwt({ token, user }) {
+      return { ...token, ...user };
     },
-    session: async ({ session, token }) => {
+    async session({ session, token }) {
       session.user = token;
       return session;
     },
   },
-  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -44,18 +40,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, request) {
         const creds = await loginSchema.parseAsync(credentials);
-        const user = await prisma.user.findUnique({
-          where: {
-            email: creds.email,
-          },
-        });
-        if (user) {
-          console.log(user);
-          if (user?.password === credentials?.password) {
-            return user;
-          } else {
-            throw new Error("Password does not match!");
-          }
+        const { data } = await client.post("/api/sessions", creds);
+
+        if (data.accessToken) {
+          return data;
         } else {
           throw new Error("We couldn't find an account with that email!");
         }
@@ -64,26 +52,33 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     async signIn({ user }) {
-      await prisma.user.update({
-        where: {
-          email: user.email,
-        },
-        data: {
+      const { data } = await axios.patch(
+        `${baseURL}/api/users/${user.data._id}`,
+        {
           isLoggedIn: true,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      );
     },
-    async signOut({ session, token }) {
-      await prisma.user.update({
-        where: {
-          email: token?.email!,
-        },
-        data: {
+    async signOut({ token }) {
+      const { data } = await axios.patch(
+        `${baseURL}/api/users/${token.data._id}`,
+        {
           isLoggedIn: false,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token.accessToken}`,
+          },
+        }
+      );
     },
   },
+
   pages: {
     signIn: "/auth/sign-in",
   },

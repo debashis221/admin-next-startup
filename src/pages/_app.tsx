@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import React from "react";
 import theme from "@/theme/theme";
-import { api } from "@/utils/api";
 
 import "@/styles/Fonts.css";
 import "@/styles/App.css";
@@ -32,4 +31,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;

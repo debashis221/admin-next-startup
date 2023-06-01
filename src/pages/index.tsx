@@ -9,7 +9,6 @@ import AdminLayout from "@/layouts/admin";
 import History from "@/components/history/History";
 import CompanyDetails from "@/components/company/CompanyDetails";
 import { useSession } from "next-auth/react";
-import { api } from "@/utils/api";
 
 export default function UserReports() {
   const session = useSession();
@@ -19,7 +18,11 @@ export default function UserReports() {
   return (
     <AdminLayout>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-        <HStack justify={"space-between"} align={"start"}>
+        <HStack
+          justify={"space-between"}
+          align={"start"}
+          direction={{ base: "column", md: "row" }}
+        >
           <Card
             borderRadius={"xl"}
             backdropFilter={"blur(20px)"}

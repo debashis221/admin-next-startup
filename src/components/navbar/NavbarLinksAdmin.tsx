@@ -31,7 +31,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const { data } = useSession();
-  console.log(data)
   return (
     <Flex
       w={{ sm: "100%", md: "auto" }}
@@ -68,7 +67,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           <Avatar
             _hover={{ cursor: "pointer" }}
             color="white"
-            name={data?.user.name}
+            name={data?.user.data.name}
             bg="#11047A"
             size="sm"
             w="40px"
@@ -95,7 +94,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, {data?.user.name}
+              👋&nbsp; Hey, {data?.user.data.name}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
